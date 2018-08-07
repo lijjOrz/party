@@ -20,8 +20,10 @@
                 </li>
                 <li class="header-title-unit" @click="showDownload">下载</li>
             </ul>
-            <div class="title-login" v-if="logShow" >登录</div>
-            <div class="idmessage" v-if="!logShow">
+
+            <div class="title-login" v-if="!loginSucceedShow" @click="showLogin">登录</div>
+            <!-- 用户信息 -->
+            <div class="idmessage" v-if="loginSucceedShow">
                 <img class="headimg" src="../../images/logo2x.png" alt="">
                 <div class="userid">
                     <div class="user-name">炫酷id屌炸天</div>
@@ -29,29 +31,37 @@
                 </div>
                 <div class="id-esc">退出</div>
             </div>
+
         </div>
-        <download :downloadOnoff='downloadOnoff' v-on:showDownload="showDownload"></download>    
+        <download :downloadOnoff='downloadOnoff' @showDownload="showDownload"></download>
+        <login :loginOnoff='loginOnoff' @showLogin='showLogin'></login>    
     </div>
 </template>
 
 <script>
 import download from './download'
+import login from './login'
 
 export default {
     name: "HeaderTitle",
     components:{
-        download
+        download,
+        login,
     },
     data() {
         return {
-            logShow: true,
+            loginSucceedShow: false,
             downloadOnoff: false,
+            loginOnoff: false,
         }
     },
     methods:{
         showDownload(){
             this.downloadOnoff = !this.downloadOnoff
         },
+        showLogin(){
+            this.loginOnoff = !this.loginOnoff
+        }
     }
 }
 </script>

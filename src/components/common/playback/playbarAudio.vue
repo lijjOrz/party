@@ -177,4 +177,10 @@ export default {
     .el-slider__bar{
         background: #f02744;
     }
+    .el-slider__button{
+        background: url('/static/sliderButton.png');
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        border: 0;
+    }
 </style>
