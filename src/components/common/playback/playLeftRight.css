@@ -1,0 +1,209 @@
+.playbackground{
+    background: #fafafb;
+}
+.color-808080{
+    color: #808080;
+}
+.color-000{
+    color: #000;
+}
+.border-right{
+    border-right: 1px solid #d7d7d7;
+}
+.border-left{
+    border-left: 1px solid #d7d7d7;
+}
+.play-router-box{
+    width: 1150px;
+    border-radius: 10px;
+    background: #fff;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+.table-head{
+    width: 100%;
+    height: 40px;
+    font-size: 0;
+    padding-left: 90px;
+}
+.table-head div{
+    height: 40px;
+    font-size: 16px;
+}
+.table-head-song{
+    display: inline-block;
+    width: 480px;
+    line-height: 40px;
+}
+.table-head-name{
+    display: inline-block;
+    line-height: 40px;
+    padding-left: 10px;
+}
+.table-head-time{
+    width: 148px;
+    line-height: 40px;
+    float: right;
+    padding-left: 10px;
+}
+.play-page{
+    width: 100%;
+    height: 74px;
+    padding: 0 97px 0 90px;
+    /* Internet Explorer 10 */
+    display: -ms-flexbox;
+    -ms-flex-pack: justify;
+
+    /* Firefox */
+    display: -moz-box;
+    -moz-box-pack: justify;
+
+    /* Safari, Chrome, and Opera */
+    display: -webkit-box;
+    -webkit-box-pack: justify;
+
+    /* W3C */
+    display: box;
+    box-pack: justify;
+}
+.play-page-all{
+    font-size: 16px;
+    color: #4b4b4b;
+    line-height: 74px;
+}
+.play-v-page{
+    /* Internet Explorer 10 */
+    display:-ms-flexbox;
+    -ms-flex-align:center;
+    /* Firefox */
+    display:-moz-box;
+    -moz-box-align:center;
+
+    /* Safari, Chrome, and Opera */
+    display:-webkit-box;
+    -webkit-box-align:center;
+
+    /* W3C */
+    display:box;
+    box-align:center;
+}
+v-page{
+    margin-right: 10px;
+}
+div.vPagination.vPaginationRight{
+    line-height: 0px;
+    overflow: hidden;
+}
+div.vPagination>ul>li>a{
+    border-top: 1px solid #d7d7d7 !important;
+    border-right: 1px solid #d7d7d7 !important;
+    border-bottom: 1px solid #d7d7d7 !important;
+    font-size: 14px !important;
+    color: #4b4b4b !important;
+    height: 28px !important;
+    width: 28px !important;
+    padding: 0px !important;
+    line-height: 28px !important;
+}
+div.vPagination>ul>li:first-child>a, div.vPagination>ul>li:first-child>span{
+    display: none;
+}
+div.vPagination>ul>li:nth-of-type(2)>a{
+    border-left: 1px solid #d7d7d7 !important;
+    border-radius: 6px 0 0 6px !important;
+    width: 48px !important;
+}
+/* div.vPagination>ul>li:nth-of-type(3)>a{
+    display: none;
+} */
+div.vPagination>ul>li:last-child>a, div.vPagination>ul>li:last-child>span {
+    -webkit-border-bottom-right-radius: 6px !important;
+    border-bottom-right-radius: 6px !important;
+    -webkit-border-top-right-radius: 6px !important;
+    border-top-right-radius: 6px !important;
+    -moz-border-radius-bottomright: 6px !important;
+    -moz-border-radius-topright: 6px !important;
+    width: 48px !important;
+}
+div.vPagination>ul>li.active>a, div.vPagination>ul>li.active>span{
+    background-color: #e6e7ee !important;
+}
+.play-pageall{
+    border: 1px solid #d7d7d7;
+    border-radius: 6px;
+    padding: 0 10px;
+    height: 28px;
+    line-height: 28px;
+    font-size: 14px;
+    color: #4b4b4b;
+    margin-left: 10px;
+    margin-right: 30px;
+}
+.play-v-page input{
+    border: 1px solid #d7d7d7;
+    border-radius: 6px;
+    width: 80px;
+    height: 28px;
+    line-height: 28px;
+    font-size: 14px;
+    outline:none;
+    text-align: center;
+    font-size: 14px;
+    color: #4b4b4b;
+    margin-right: 10px;
+}
+.play-v-page input::-webkit-input-placeholder {
+    color: #ccc ; /*WebKit browsers*/
+}
+.play-v-page input::-moz-placeholder {
+    color: #ccc ; /*Mozilla Firefox 4 to 18 */
+}
+.play-v-page input::-moz-placeholder {
+    color: #ccc ; /*Mozilla Firefox 19+ */
+}
+.play-v-page input::-ms-input-placeholder {
+    color: #ccc ; /*Internet Explorer 10+*/ 
+}
+.page-button{
+    width: 50px;
+    height: 28px;
+    border: 1px solid #d7d7d7;
+    border-radius: 6px;
+    font-size: 0;
+    line-height: 28px;
+    text-align: center;
+}
+.page-button:hover{
+    cursor: pointer;
+    background-color: #e6e7ee
+}
+.page-button span{
+    font-size: 14px;
+    color: #333;
+}
+.nothing-text{
+    height: 370px;
+    /* Internet Explorer 10 */
+    display:-ms-flexbox;
+    -ms-flex-pack:center;
+    -ms-flex-align:center;
+
+    /* Firefox */
+    display:-moz-box;
+    -moz-box-pack:center;
+    -moz-box-align:center;
+
+    /* Safari, Chrome, and Opera */
+    display:-webkit-box;
+    -webkit-box-pack:center;
+    -webkit-box-align:center;
+
+    /* W3C */
+    display:box;
+    box-pack:center;
+    box-align:center;
+}
+.nothing-text-p p{
+    font-size: 18px;
+    color: #4b4b4b;
+}
