@@ -9,8 +9,9 @@ import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import qs from 'qs'
 
-
+Vue.prototype.$qs = qs;
 Vue.config.productionTip = false
 window.axios = axios
 
@@ -20,6 +21,11 @@ Vue.use(vPage)
 Vue.use(ElementUI)
 Vue.use(VueAwesomeSwiper)
 
+window.header = {
+    'X-HTTP-Method-Override': 'PATCH',
+    'cli-platform': 'pc',
+    'authorize-token': '',
+}
 
 /* eslint-disable no-new */
 new Vue({

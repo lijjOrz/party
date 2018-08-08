@@ -8,15 +8,15 @@
             </div>
 
             <div class="downloadLeft">
-                    <div class="ios-button">
+                    <a href="https://itunes.apple.com/cn/app/id1112801526?mt=8" class="ios-button">
                         <img src="../../images/ios-icon.png">
                         <div class="downloadText">下载IOS版</div>
-                    </div>
+                    </a>
                     <span class="revNum">当前版本：V 1.1.1</span>
-                    <div class="andrlid-button margin-top">
+                    <a href="" class="andrlid-button margin-top">
                         <img src="../../images/android-icon.png">
                         <div class="downloadText">下载安卓版</div> 
-                    </div>
+                    </a>
                     <span class="revNum">当前版本：V 1.1.1</span>
             </div>
 

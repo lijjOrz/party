@@ -9,27 +9,31 @@
 
             <div style="overflow: hidden; padding-bottom: 20px;"><p class="dl">切换邮箱登陆</p></div>
             <div style="clear:both"></div>
-
+            
             <div class="number">
-                <div class="user">用户名</div>
+                <!--输入用户id  -->
+                <input type="text" placeholder="输入手机号" v-model="userId">
                 <div class="cl"><img src="../../images/clear-text.png"></div>
             </div>
-
+            
             <div class="th">	
                 <div class="code_1">
-                    <div class="nu">4456</div>
+                    <!-- 输入验证码 -->
+                    <input type="text" placeholder="验证码" v-model="captcha"> 
                     <div class="cl"><img src="../../images/clear-text.png"></div>	
                 </div>
                 
                 <div class="sec">
-                    <div class="nu">59</div>
+                    <div class="nu" @click="greet" v-show="VcodeShow">获取验证码</div>
+                    <div class="nu" v-show="!VcodeShow">{{times}}</div>
                 </div>
             </div>
 
-            <div class="fo">
-                <div class="log_in">登录</div>
+            <div class="loginButton">
+                <div class="log_in" @click="loginButtonFun">登录</div>
             </div>
-            <div class="fi">账号不存在，请先<u style="color: #f12644;">下载客户端</u>并注册</div>
+            <div class="fi" v-if="false">若未注册账号，请先<a href=""><u style="color: #f12644;">下载客户端</u></a>并注册</div>
+            <div class="fi"><span style="color:#333;" v-html="hintText"></span></div>
 
             <div class="lower">
                 <div class="border"></div>
@@ -49,10 +53,117 @@
 </template>
 
 <script>
-    
+
+window.userData ={}
+
+
 export default{
     name: 'login',
     props: ['loginOnoff'],
+    data() {
+        // let config = Object.assign({}, defaults, this.loginOnoff);
+        // let config =  this.setting;
+        return {
+            times: 3, //倒计时
+            VcodeShow: true, //显示倒计时
+            hintText: '', //提示文本
+            userId: '13008300888',  //用户id
+            captcha: '', //手机验证码
+            // loginOnoff: config
+        }
+    },
+    methods: {
+        timedCount(){//倒计时
+            if(this.times == 0){
+                this.VcodeShow = true
+                // this.hintText = ''
+                this.times = 3
+                return
+            }
+            this.times -= 1
+            setTimeout(this.timedCount,1000)
+        },
+        // stopCount: function(){
+        //     clearTimeout(t)
+        // },
+        greet(){//倒计时函数
+            if(this.userId){
+                if(/^1\d{10}$/.test(this.userId)){
+                    this.VcodeShow = false
+                    this.getData()
+                    this.timedCount()
+                }else{
+                    return this.hintText = '手机号应为1开头的11数字'
+                }
+            }else{
+                return this.hintText = '请输入手机号'
+            }
+        },
+        loginButtonFun(){
+            if(this.userId){
+                this.hintText = ''
+                if(this.captcha){
+                    this.hintText = ''
+                    this.postData()
+                }else{
+                    this.hintText = '请输入验证'
+                    return
+                }
+            }else{
+                this.hintText = '请输入手机号'
+                return
+            }
+        },
+        getData() {
+            axios.get('http://dev-party-officia-site.haochang.tv/api/captcha/telphone',{
+                headers: window.header,
+                params: {
+                    telphone: this.userId
+                }
+            })
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) =>  {
+                console.log(error.response);
+            });
+        },
+        postData() {
+            var postData = this.$qs.stringify({
+                telphone: this.userId,      //登录手机号
+                captcha: this.captcha
+            });
+            axios.post('http://dev-party-officia-site.haochang.tv/api/login/telphone',
+                postData,
+                window.header
+            )
+            .then((response) => {
+                console.log(response);
+                window.header['authorize-token'] = response.data.data.token
+                // console.log("response.data.data"+ response.data.data)
+                window.userData = response.data.data
+                // console.log("window.userData"+ window.userData.userId)
+                // $emit('showLogin')
+                this.loginOnoff = false
+            })
+            .catch((error) => {
+                // console.log(error.response);
+                console.log('错误状态码'+error.response.data.errno)
+                let n = error.response.data.errno
+                switch(n){
+                    case '120001' :
+                    this.hintText = '验证码错误'
+                    break;
+                    case '120002' :
+                    this.hintText = '验证码过期'
+                    break;
+                    case '130015' :
+                    this.hintText = '用户未注册'
+                    break;
+                }
+            });
+        }
+    }
 }
 
 </script>
@@ -100,6 +211,30 @@ export default{
 	margin: 0px 60px 0px 60px;
 	border: 1px solid #d7d7d7;
 	border-radius: 24px;
+    overflow: hidden;
+}
+.number input{
+    width: 254px;
+    border: 0 ;
+    margin-left: 20px;
+    height: 48px;
+    line-height: 48px;
+    font-size: 19px;
+    outline:none;
+    font-size: 16px;
+    color:#333;
+}
+input::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color: #bbb;
+}
+input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #bbb;
+}
+input::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #bbb;
+}
+input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #bbb;
 }
 .user{
 	width: 278px;
@@ -127,6 +262,16 @@ export default{
 	margin-left: 60px;
 	padding-left: 20px;
 	float: left;
+    overflow: hidden;
+}
+.code_1 input{
+    border: 0 ;
+    height: 48px;
+    line-height: 48px;
+    font-size: 19px;
+    outline:none;
+    font-size: 16px;
+    color:#333;
 }
 .nu{
 	font-size: 16px; 
@@ -143,7 +288,7 @@ export default{
 	float: right;
 	text-align: center;
 }
-.fo{
+.loginButton{
 	height: 48px;
 	margin: 20px 60px 0px 60px;
 	border: 1px solid #d7d7d7;
@@ -151,6 +296,7 @@ export default{
 	background: #f12644;
 	line-height: 48px;
 	text-align: center;
+    cursor: pointer;
 }
 .log_in{
 	font-size: 16px;

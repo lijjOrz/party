@@ -24,10 +24,10 @@
             <div class="title-login" v-if="!loginSucceedShow" @click="showLogin">登录</div>
             <!-- 用户信息 -->
             <div class="idmessage" v-if="loginSucceedShow">
-                <img class="headimg" src="../../images/logo2x.png" alt="">
+                <img class="headimg" :src="userData.portrait" alt="">
                 <div class="userid">
-                    <div class="user-name">炫酷id屌炸天</div>
-                    <div class="user-66">ID:6666666666</div>
+                    <div class="user-name">{{userData.nickname}}</div>
+                    <div class="user-66">{{userData.userId}}</div>
                 </div>
                 <div class="id-esc">退出</div>
             </div>
@@ -53,8 +53,10 @@ export default {
             loginSucceedShow: false,
             downloadOnoff: false,
             loginOnoff: false,
+            userData: '',
         }
     },
+    
     methods:{
         showDownload(){
             this.downloadOnoff = !this.downloadOnoff
