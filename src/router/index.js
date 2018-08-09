@@ -8,22 +8,17 @@ import succeed from '@/components/common/charge/succeed'
 import backhint from '@/components/common/charge/backhint'
 import playListLeft from '@/components/common/playback/playListLeft'
 import playListRight from '@/components/common/playback/playListRight'
-
+import Data from '@/model/Data'
 
 // import HelloWorld from '@/components/HelloWorld'
-
+import Bus from '../utils/bus'
 
 
 
 Vue.use(Router)
 
-export default new Router({
+var router = new Router({
   routes: [
-    // {
-    //   path: '/',
-    //   name: 'HelloWorld',
-    //   component: HelloWorld
-    // },
     {
         path: '/',  //首页
         name: 'home',
@@ -68,3 +63,23 @@ export default new Router({
     },
   ]
 })
+
+router.beforeEach((to, from, next) => {
+    if(to.path == '/charge'){
+        if(Data.header['authorize-token']){
+            next()
+            console.log('跳转测试true')
+        }else{
+            console.log('跳转测试false')
+            Bus.$emit('showLoginPage', () => {
+                this.loginPage = true;
+            })
+            // alert('')
+        }
+    }else{
+        next()
+    }
+  })
+
+
+export default router

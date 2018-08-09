@@ -1,38 +1,62 @@
 <template>
-    <div class="fixed_1" v-if="loginOnoff">
+    <div class="fixed_1" v-show="loginPage">
 		<div class="SignIn">
 			
             <div class="logo">
                 <img src="../../images/party-logo.png">
             </div>
-            <div  class="close" @click="$emit('showLogin')"><img src="../../images/close.png"></div>
+            <div  class="close" @click="loginPage=false"><img src="../../images/close.png"></div>
 
-            <div style="overflow: hidden; padding-bottom: 20px;"><p class="dl">切换邮箱登陆</p></div>
+            <div style="overflow: hidden; padding-bottom: 20px;" @click="changeLoginWay"><p class="dl">{{changeLoginWayText}}</p></div>
             <div style="clear:both"></div>
             
-            <div class="number">
-                <!--输入用户id  -->
-                <input type="text" placeholder="输入手机号" v-model="userId">
-                <div class="cl"><img src="../../images/clear-text.png"></div>
-            </div>
-            
-            <div class="th">	
-                <div class="code_1">
-                    <!-- 输入验证码 -->
-                    <input type="text" placeholder="验证码" v-model="captcha"> 
-                    <div class="cl"><img src="../../images/clear-text.png"></div>	
+            <div class="loginEmail" v-if="!loginWayPage">
+                <div class="number">
+                    <!--输入email  -->
+                    <input type="text" placeholder="输入邮箱" v-model="userEmail">
+                    <div class="cl"><img src="../../images/clear-text.png"></div>
                 </div>
                 
-                <div class="sec">
-                    <div class="nu" @click="greet" v-show="VcodeShow">获取验证码</div>
-                    <div class="nu" v-show="!VcodeShow">{{times}}</div>
+                <div class="number marginTop">
+                    <!--输入密码  -->
+                    <input type="password" placeholder="密码" v-model="password">
+                    <div class="cl"><img src="../../images/clear-text.png"></div>
+                </div>
+
+                <div class="number marginTop">
+                    <!--输入验证码  -->
+                    <input type="text" placeholder="输入验证码" v-model="captchaEmail">
+                    <div class="cl"><img src="../../images/clear-text.png"></div>
+                </div>
+
+                <div class="loginButton">
+                    <div class="log_in" @click="loginButtonFunEmail">登录</div>
                 </div>
             </div>
 
-            <div class="loginButton">
-                <div class="log_in" @click="loginButtonFun">登录</div>
+
+            <div class="loginPhone" v-if="loginWayPage">
+                <div class="number">
+                    <input type="text" placeholder="输入手机号" v-model="userId">
+                    <div class="cl"><img src="../../images/clear-text.png"></div>
+                </div>
+
+                <div class="th">	
+                    <div class="code_1">
+                        <input type="text" placeholder="验证码" v-model="captcha"> 
+                        <div class="cl"><img src="../../images/clear-text.png"></div>	
+                    </div>
+                    <div class="sec">
+                        <div class="nu" @click="getcaptcha" v-show="VcodeShow">获取验证码</div>
+                        <div class="nu" v-show="!VcodeShow">{{times}}</div>
+                    </div>
+                </div>
+
+                <div class="loginButton">
+                    <div class="log_in" @click="loginButtonFun">登录</div>
+                </div>
             </div>
-            <div class="fi" v-if="false">若未注册账号，请先<a href=""><u style="color: #f12644;">下载客户端</u></a>并注册</div>
+
             <div class="fi"><span style="color:#333;" v-html="hintText"></span></div>
 
             <div class="lower">
@@ -53,26 +77,46 @@
 </template>
 
 <script>
-
-window.userData ={}
-
+import Data from '../../model/Data'
+import Bus from '../../utils/bus'
 
 export default{
     name: 'login',
-    props: ['loginOnoff'],
+    // propsPage'],
     data() {
-        // let config = Object.assign({}, defaults, this.loginOnoff);
-        // let config =  this.setting;
+        // let config = Object.assign({}, defaults, tPage);
+        // let config =  tPage;
         return {
             times: 3, //倒计时
             VcodeShow: true, //显示倒计时
-            hintText: '', //提示文本
-            userId: '13008300888',  //用户id
-            captcha: '', //手机验证码
-            // loginOnoff: config
+            hintText: '若未注册账号，请先<a href=""><u style="color: #f12644;">下载客户端</u></a>并注册', //提示文本
+            userId: '',  //手机号
+            captcha: '1234', //手机验证码
+            loginPage: false,
+            changeLoginWayText: '切换手机登陆',
+            loginWayPage: false, 
+            userEmail: 'test@test.com',// 邮箱号
+            password: 'kanKan123',//邮箱密码
+            captchaEmail: '',// 邮箱验证码
         }
     },
+    mounted(){
+        Bus.$on('showLoginPage', () => {
+            this.loginPage = true;
+        })
+    },
+    computed:{
+    },
     methods: {
+        changeLoginWay(){
+            if(this.changeLoginWayText == '切换手机登陆'){
+                this.changeLoginWayText = '切换邮箱登陆'
+                this.loginWayPage = true
+            }else{
+                this.changeLoginWayText = '切换手机登陆'
+                this.loginWayPage = false
+            }
+        },
         timedCount(){//倒计时
             if(this.times == 0){
                 this.VcodeShow = true
@@ -86,7 +130,7 @@ export default{
         // stopCount: function(){
         //     clearTimeout(t)
         // },
-        greet(){//倒计时函数
+        getcaptcha(){//倒计时函数
             if(this.userId){
                 if(/^1\d{10}$/.test(this.userId)){
                     this.VcodeShow = false
@@ -97,6 +141,18 @@ export default{
                 }
             }else{
                 return this.hintText = '请输入手机号'
+            }
+        },
+        loginButtonFunEmail(){
+            if(this.userEmail){
+                if(this.password){
+                    this.hintText = ''
+                    this.postDataEmail()
+                }else{
+                    this.hintText = '请输入密码'
+                }
+            }else{
+                this.hintText = '请输入邮箱'
             }
         },
         loginButtonFun(){
@@ -116,7 +172,7 @@ export default{
         },
         getData() {
             axios.get('http://dev-party-officia-site.haochang.tv/api/captcha/telphone',{
-                headers: window.header,
+                headers: Data.header,
                 params: {
                     telphone: this.userId
                 }
@@ -126,6 +182,11 @@ export default{
             })
             .catch((error) =>  {
                 console.log(error.response);
+                let n = error.response.data.errno
+                switch(n){
+                    case '130017':
+                    this.hintText = '用户已在其他地方登陆（刷新下）'
+                }
             });
         },
         postData() {
@@ -135,16 +196,14 @@ export default{
             });
             axios.post('http://dev-party-officia-site.haochang.tv/api/login/telphone',
                 postData,
-                window.header
+                Data.header
             )
             .then((response) => {
                 console.log(response);
-                window.header['authorize-token'] = response.data.data.token
-                // console.log("response.data.data"+ response.data.data)
-                window.userData = response.data.data
-                // console.log("window.userData"+ window.userData.userId)
-                // $emit('showLogin')
-                this.loginOnoff = false
+                Data.header['authorize-token'] = response.data.data.token
+                Data.userData = response.data.data
+                Bus.$emit('updateUserInfo', Data.userData)
+                this.loginPage = false;
             })
             .catch((error) => {
                 // console.log(error.response);
@@ -152,18 +211,67 @@ export default{
                 let n = error.response.data.errno
                 switch(n){
                     case '120001' :
-                    this.hintText = '验证码错误'
-                    break;
+                        this.hintText = '验证码错误'
+                        break;
                     case '120002' :
-                    this.hintText = '验证码过期'
-                    break;
+                        this.hintText = '验证码过期'
+                        break;
                     case '130015' :
-                    this.hintText = '用户未注册'
-                    break;
+                        this.hintText = '用户未注册'
+                        break;
+                    default:
+                        this.hintText = '服务器异常'
+                        break;
+                }
+            });
+        },
+        postDataEmail(){
+            var postData = this.$qs.stringify({
+                email: this.userEmail,
+                password: this.password,
+                // captcha: this.captchaEmail,
+            });
+            axios.post('http://dev-party-officia-site.haochang.tv/api/login/email',
+                postData,
+                Data.header
+            )
+            .then((response) => {
+                console.log(response);
+                Data.header['authorize-token'] = response.data.data.token
+                Data.userData = response.data.data
+                Bus.$emit('updateUserInfo', Data.userData)
+                this.loginPage = false;
+            })
+            .catch((error) => {
+                // console.log(error.response);
+                console.log('错误状态码'+error.response.data.errno)
+                let n = error.response.data.errno
+                switch(n){
+                    case '120003' :
+                        this.hintText = '邮箱已经绑定'
+                        break;
+                    case '120004' :
+                        this.hintText = '邮箱已经注册'
+                        break;
+                    case '120005' :
+                        this.hintText = '邮箱未验证，请验证后登陆'
+                        break;
+                    case '120006' :
+                        this.hintText = '邮箱地址不存在'
+                        break;
+                    case '120007' :
+                        this.hintText = '邮箱或密码错误'
+                        break;
+                    case '120008' :
+                        this.hintText = '验证码错误'
+                        break;
+                    default:
+                        this.hintText = '服务器异常'
+                        break;
                 }
             });
         }
-    }
+    },
 }
 
 </script>
@@ -177,7 +285,9 @@ export default{
 	height: 100%;
 	background: rgba(0,0,0,0.3);
 }
-
+.marginTop{
+    margin-top: 20px !important;
+}
 .SignIn{
 	width: 460px;
 	border-radius: 26px;
@@ -203,7 +313,8 @@ export default{
 	font-size: 14px; 
 	color: #ff4a64; 
 	margin-right: 66px;
-	float: right;
+    float: right;
+    cursor: pointer;
 }
 
 .number{

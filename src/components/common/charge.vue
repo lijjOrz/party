@@ -33,50 +33,6 @@
                             <div class="price-this">¥ 88.89</div>
                         </div>
                     </li>
-                    <li class="list-unit">
-                        <div class="unit-dou">
-                            <img src="../../images/dou.png" alt="">
-                            <div class="unit-number">6666K逗</div>
-                            <div class="unit-mark">折扣</div>
-                        </div>
-                        <div class="unit-dou-price">
-                            <div class="price-line">原价 ¥ 88.88</div>
-                            <div class="price-this">¥ 88.89</div>
-                        </div>
-                    </li>
-                    <li class="list-unit">
-                        <div class="unit-dou">
-                            <img src="../../images/dou.png" alt="">
-                            <div class="unit-number">6666K逗</div>
-                            <div class="unit-mark">折扣</div>
-                        </div>
-                        <div class="unit-dou-price">
-                            <div class="price-line">原价 ¥ 88.88</div>
-                            <div class="price-this">¥ 88.89</div>
-                        </div>
-                    </li>
-                    <li class="list-unit">
-                        <div class="unit-dou">
-                            <img src="../../images/dou.png" alt="">
-                            <div class="unit-number">6666K逗</div>
-                            <div class="unit-mark">折扣</div>
-                        </div>
-                        <div class="unit-dou-price">
-                            <div class="price-line">原价 ¥ 88.88</div>
-                            <div class="price-this">¥ 88.89</div>
-                        </div>
-                    </li>
-                    <li class="list-unit">
-                        <div class="unit-dou">
-                            <img src="../../images/dou.png" alt="">
-                            <div class="unit-number">6666K逗</div>
-                            <div class="unit-mark">折扣</div>
-                        </div>
-                        <div class="unit-dou-price">
-                            <div class="price-line">原价 ¥ 88.88</div>
-                            <div class="price-this">¥ 88.89</div>
-                        </div>
-                    </li> 
                 </ul>
             </div>
 
@@ -110,6 +66,7 @@
 <script>
 import FooterFont from '../footer/FooterFont'
 import backhint from './charge/backhint'
+import Data from '../../model/Data'
 
 export default {
     naem: 'playback',
@@ -126,7 +83,26 @@ export default {
         kaiguan(){
             this.onoff = !this.onoff
         },
-    }
+    },
+    mounted(){
+        axios.get('http://dev-party-officia-site.haochang.tv/api/product/kds',{
+            headers: Data.header,
+            // params: {
+            //     telphone: this.userId
+            // }
+        })
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((error) =>  {
+            console.log(error.response);
+            // let n = error.response.data.errno
+            // switch(n){
+            //     case '130017':
+            //     this.hintText = '用户已在其他地方登陆（刷新下）'
+            // }
+        });   
+    },
 }
 </script>
 

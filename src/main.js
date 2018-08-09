@@ -16,16 +16,11 @@ Vue.config.productionTip = false
 window.axios = axios
 
 Vue.use(VueAxios,axios)
-Vue.use(router)
+// Vue.use(router)
 Vue.use(vPage)
 Vue.use(ElementUI)
 Vue.use(VueAwesomeSwiper)
 
-window.header = {
-    'X-HTTP-Method-Override': 'PATCH',
-    'cli-platform': 'pc',
-    'authorize-token': '',
-}
 
 /* eslint-disable no-new */
 new Vue({

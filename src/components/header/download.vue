@@ -4,7 +4,7 @@
 
             <div class="lg">
                 <img  src="../../images/download-logo.png">
-                <img class="close" src="../../images/close.png" @click="$emit('showDownload')">
+                <img class="close" src="../../images/close.png" @click="closeDownloadPage">
             </div>
 
             <div class="downloadLeft">
@@ -29,9 +29,25 @@
 </template>
 
 <script>
+import Bus from '../../utils/bus'
+
 export default {
     name: 'download',
-    props: ['downloadOnoff'],
+    data(){
+        return{
+            downloadOnoff: false,
+        }
+    },
+    mounted(){
+        Bus.$on('showDownloadPage',() =>{
+            this.downloadOnoff = true
+        })
+    },
+    methods:{
+        closeDownloadPage(){
+            this.downloadOnoff = false
+        }
+    }
 }
 </script>
 
