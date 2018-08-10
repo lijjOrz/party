@@ -24,7 +24,7 @@
             <div class="title-login" v-if="loginButton" @click="showLogin">登录</div>
             <!-- 用户信息 -->
             <div class="idmessage" v-if="!loginButton">
-                <img class="headimg" :src="userData.portrait" alt="">
+                <div class="headimg"><img class="headimg" :src="userData.portrait" alt=""></div>
                 <div class="userid">
                     <div class="user-name">{{userData.nickname}}</div>
                     <div class="user-66">{{userData.userId}}</div>

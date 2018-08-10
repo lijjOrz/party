@@ -2,7 +2,7 @@
     <div class="bgcolor">
         <div class="charge-box">
             <div class="playhead">
-                <div class="balance">账户余额：222k逗</div>
+                <div class="balance">账户余额：{{kdNum}}K豆</div>
                 <div class="waiter">
                     <img src="../../images/waiter.png" alt="">
                     <div class="waiter-text">客服</div>
@@ -11,33 +11,22 @@
 
             <div class="goods-tilte">
                 <ul class="goods">
-                    <li class="list-unit">
+                    <li class="list-unit" v-for="(list, index) in lists" :key="index" @click="pitchOnList(list)" :class="{focusList: productKdId == list.productKdId}">
                         <div class="unit-dou">
                             <img src="../../images/dou.png" alt="">
-                            <div class="unit-number">6666K逗</div>
-                            <div class="unit-mark">折扣</div>
+                            <div class="unit-number">{{list.name}}</div>
+                            <div class="unit-mark" v-if="list.label">折扣</div>
                         </div>
                         <div class="unit-dou-price">
-                            <div class="price-line">原价 ¥ 88.88</div>
-                            <div class="price-this">¥ 88.89</div>
-                        </div>
-                    </li>
-                    <li class="list-unit">
-                        <div class="unit-dou">
-                            <img src="../../images/dou.png" alt="">
-                            <div class="unit-number">6666K逗</div>
-                            <div class="unit-mark">折扣</div>
-                        </div>
-                        <div class="unit-dou-price">
-                            <div class="price-line">原价 ¥ 88.88</div>
-                            <div class="price-this">¥ 88.89</div>
+                            <div class="price-line" v-if="list.originalPrice">原价 ¥ {{list.originalPrice}}</div>
+                            <div class="price-this">¥ {{list.price}}</div>
                         </div>
                     </li>
                 </ul>
             </div>
 
             <div class="price-number">
-                <p>充值6666666K逗，需支付<span>6666.66</span>元</p>
+                <p>充值{{chargeKdNumber}}K豆，需支付<span>{{payMoney}}</span>元</p>
             </div>
 
             <div class="payway">
@@ -52,10 +41,16 @@
                     <img class="pitch-on" src="../../images/pitch.png" alt="">
                 </router-link>                
             </div>
-
-            <div class="comfirm" @click="kaiguan">
+            
+            <a class="comfirm" @click="kaiguan" href="" target="_blank">
                 <p>立即充值</p>
-            </div>
+            </a>
+
+            <!-- <div class="comfirm" @click="kaiguan">
+                <p>立即充值</p>
+                <a href="./chrage/code2d">立即充值</a>
+            </div> -->
+
             <backhint :onoff="onoff" v-on:kaiguan="kaiguan"></backhint>
         </div>
 
@@ -72,7 +67,12 @@ export default {
     naem: 'playback',
     data(){
         return {
-            onoff: false,
+            onoff: false, //充值后提示弹窗
+            kdNum: '', //用户k豆数量
+            lists:[], //商品信息
+            chargeKdNumber:'' , //需要充值的kd数量 
+            payMoney: '',  //应该支付多少钱
+            productKdId: '', //选中的商品 
         }
     },
     components:{
@@ -80,33 +80,42 @@ export default {
         backhint
     },
     methods:{
-        kaiguan(){
+        kaiguan(){ //充值提示页面开关
             this.onoff = !this.onoff
         },
+        pitchOnList(msg){
+            this.chargeKdNumber = msg.name
+            this.payMoney = msg.price
+            this.productKdId = msg.productKdId
+        }
     },
     mounted(){
+        console.log('1234547'+this.lists)
         axios.get('http://dev-party-officia-site.haochang.tv/api/product/kds',{
             headers: Data.header,
-            // params: {
-            //     telphone: this.userId
-            // }
         })
         .then((response) => {
             console.log(response);
         })
         .catch((error) =>  {
             console.log(error.response);
-            // let n = error.response.data.errno
-            // switch(n){
-            //     case '130017':
-            //     this.hintText = '用户已在其他地方登陆（刷新下）'
-            // }
+            this.kdNum = Data.kdNum
+            this.lists = Data.lists
+            this.chargeKdNumber = Data.lists[0].name
+            this.payMoney = Data.lists[0].price
+            this.productKdId = Data.lists[0].productKdId
         });   
     },
 }
 </script>
 
 <style>
+    .focusList{
+        border: 2px solid #f45169 !important;
+    }
+    .focusPayWay{
+        border: 2px solid #56c051 !important;
+    }
     .charge-box{ 
         width: 1160px;
         border-radius: 10px;
@@ -183,6 +192,7 @@ export default {
         border: 1px solid #d7d7d7;
         border-radius: 6px;
         margin: 0 11px 20px 11px;
+        cursor: pointer;
     }
     .unit-dou{
         position: relative;
@@ -320,6 +330,7 @@ export default {
         top: -1px;
     }
     .comfirm{
+        display: block;
         width: 160px;
         height: 52px;
         margin: 40px 0 0 30px;
@@ -331,4 +342,8 @@ export default {
         font-size: 20px;
         color: #f2f3f8;
     }
+    /* .comfirm a{
+        font-size: 20px;
+        color: #f2f3f8;
+    } */
 </style>

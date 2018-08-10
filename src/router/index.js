@@ -65,21 +65,20 @@ var router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-    if(to.path == '/charge'){
+    if(to.path != '/'){
         if(Data.header['authorize-token']){
             next()
             console.log('跳转测试true')
         }else{
             console.log('跳转测试false')
-            Bus.$emit('showLoginPage', () => {
-                this.loginPage = true;
-            })
-            // alert('')
+            Bus.$emit('showLoginPage', to.path)
+            // next(false)
         }
     }else{
+        console.log('去首页')
         next()
     }
-  })
+})
 
 
 export default router

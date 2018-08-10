@@ -1,5 +1,5 @@
 <template>
-    <div class="fixed_1" v-show="loginPage">
+    <div class="fixed_1" v-if="loginPage">
 		<div class="SignIn">
 			
             <div class="logo">
@@ -30,6 +30,7 @@
                 </div>
 
                 <div class="loginButton">
+                    <!-- <router-link @click="loginButtonFunEmail" to="/charge" class="log_in">登录</router-link> -->
                     <div class="log_in" @click="loginButtonFunEmail">登录</div>
                 </div>
             </div>
@@ -90,7 +91,7 @@ export default{
             times: 3, //倒计时
             VcodeShow: true, //显示倒计时
             hintText: '若未注册账号，请先<a href=""><u style="color: #f12644;">下载客户端</u></a>并注册', //提示文本
-            userId: '',  //手机号
+            userId: '13008300888',  //手机号
             captcha: '1234', //手机验证码
             loginPage: false,
             changeLoginWayText: '切换手机登陆',
@@ -98,11 +99,14 @@ export default{
             userEmail: 'test@test.com',// 邮箱号
             password: 'kanKan123',//邮箱密码
             captchaEmail: '',// 邮箱验证码
+            routerEachPath: '',
         }
     },
     mounted(){
-        Bus.$on('showLoginPage', () => {
+        Bus.$on('showLoginPage', (routerEachPath) => {
             this.loginPage = true;
+            this.routerEachPath = routerEachPath
+            console.log('this.routerEachPath'+ this.routerEachPath)
         })
     },
     computed:{
@@ -170,7 +174,7 @@ export default{
                 return
             }
         },
-        getData() {
+        getData() { //获取手机验证码
             axios.get('http://dev-party-officia-site.haochang.tv/api/captcha/telphone',{
                 headers: Data.header,
                 params: {
@@ -189,9 +193,9 @@ export default{
                 }
             });
         },
-        postData() {
+        postData() {   //登录手机号
             var postData = this.$qs.stringify({
-                telphone: this.userId,      //登录手机号
+                telphone: this.userId,      
                 captcha: this.captcha
             });
             axios.post('http://dev-party-officia-site.haochang.tv/api/login/telphone',
@@ -225,7 +229,8 @@ export default{
                 }
             });
         },
-        postDataEmail(){
+
+        postDataEmail(){//邮箱登录
             var postData = this.$qs.stringify({
                 email: this.userEmail,
                 password: this.password,
@@ -241,6 +246,10 @@ export default{
                 Data.userData = response.data.data
                 Bus.$emit('updateUserInfo', Data.userData)
                 this.loginPage = false;
+                if(this.routerEachPath){
+                    console.log('routerEach被执行了')
+                    this.$router.push({path: this.routerEachPath})
+                }
             })
             .catch((error) => {
                 // console.log(error.response);
