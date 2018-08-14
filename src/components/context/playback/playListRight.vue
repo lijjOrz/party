@@ -34,7 +34,7 @@
 import playbarAudio from './playbarAudio'
 
 export default {
-    name: 'playListLeft',
+    name: 'playListRight',
     components:{
         playbarAudio,
     },
@@ -126,6 +126,6 @@ export default {
 </script>
 
 <style>
-    @import './playLeftRight.css';
+    @import '../../../assets/css/playLeftRight.css';
 </style>
 

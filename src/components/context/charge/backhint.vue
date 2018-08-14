@@ -11,7 +11,7 @@
                 <p class="backhint-text-p3">支付完成后，请根据结果选择</p>
             </div>
             <div class="backhint-footer">
-                <div class="backhint-footer-style  border-right"><span class="left-text">取消</span></div>
+                <div class="backhint-footer-style  border-right" @click="$emit('kaiguan')"><span class="left-text">取消</span></div>
                 <div class="backhint-footer-style"><span class="right-text">已完成支付</span></div>
             </div>
         </div>

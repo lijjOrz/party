@@ -4,7 +4,7 @@
             <div class="playhead">
                 <div class="balance">账户余额：{{kdNum}}K豆</div>
                 <div class="waiter">
-                    <img src="../../images/waiter.png" alt="">
+                    <img src="../../../images/waiter.png" alt="">
                     <div class="waiter-text">客服</div>
                 </div>
             </div>
@@ -13,7 +13,7 @@
                 <ul class="goods">
                     <li class="list-unit" v-for="(list, index) in lists" :key="index" @click="pitchOnList(list)" :class="{focusList: productKdId == list.productKdId}">
                         <div class="unit-dou">
-                            <img src="../../images/dou.png" alt="">
+                            <img src="../../../images/dou.png" alt="">
                             <div class="unit-number">{{list.name}}</div>
                             <div class="unit-mark" v-if="list.label">折扣</div>
                         </div>
@@ -31,14 +31,14 @@
 
             <div class="payway">
                 <router-link to="/code2d" class="way-box alipay">
-                    <img src="../../images/alipay.png" alt="">
+                    <img src="../../../images/alipay.png" alt="">
                     <div class="way-text">支付宝</div>
-                    <img class="pitch-on" src="../../images/pitch.png" alt="">
+                    <img class="pitch-on" src="../../../images/pitch.png" alt="">
                 </router-link>
                 <router-link to="/succeed" class="way-box wx">
-                    <img src="../../images/wxpay.png" alt="">
+                    <img src="../../../images/wxpay.png" alt="">
                     <div class="way-text">微信</div>
-                    <img class="pitch-on" src="../../images/pitch.png" alt="">
+                    <img class="pitch-on" src="../../../images/pitch.png" alt="">
                 </router-link>                
             </div>
             
@@ -59,9 +59,9 @@
 </template>
 
 <script>
-import FooterFont from '../footer/FooterFont'
-import backhint from './charge/backhint'
-import Data from '../../model/Data'
+import FooterFont from '../../footer/FooterFont'
+import backhint from './backhint'
+import Data from '../../../model/Data'
 
 export default {
     naem: 'playback',
@@ -334,7 +334,7 @@ export default {
         width: 160px;
         height: 52px;
         margin: 40px 0 0 30px;
-        background: url('../../images/comfirm.png');
+        background: url('../../../images/comfirm.png');
         text-align: center;
         line-height: 52px;
     }

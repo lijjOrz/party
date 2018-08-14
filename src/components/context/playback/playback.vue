@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import FooterFont from '../footer/FooterFont'
+import FooterFont from '../../footer/FooterFont'
 
 export default {
     name: 'playback',

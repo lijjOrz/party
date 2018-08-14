@@ -130,19 +130,7 @@ export default {
     //   }
     },
     methods:{
-        getData () {
-            axios.get('http://dev-party-officia-site.haochang.tv/api/my/listened/playbacks ', {
-                params: {
-                    ID: 12345
-                }
-            })
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-        }
+        
     },
     mounted() {
     //   if(this.res.pagenumber == 1){

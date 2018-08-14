@@ -138,6 +138,6 @@ export default {
 </script>
 
 <style>
-    @import './playLeftRight.css';
+    @import '../../../assets/css/playLeftRight.css';
 </style>
 

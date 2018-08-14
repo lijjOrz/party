@@ -39,8 +39,8 @@
 </template>
 
 <script>
-import download from './download'
-import login from './login'
+import download from '../common/download'
+import login from '../common/login'
 import Data from '../../model/Data'
 import Bus from '../../utils/bus';
 
@@ -95,5 +95,5 @@ export default {
 </script>
 
 <style>
-    @import "./headertitle.css";
+    @import "../../assets/css/headertitle.css";
 </style>
