@@ -30,16 +30,16 @@
             </div>
 
             <div class="payway">
-                <router-link to="/code2d" class="way-box alipay">
+                <div to="/code2d" class="way-box alipay" :class="{wayBoxBorder: wayBoxBorder == 0}" @click="palyWaySelect(0)">
                     <img src="../../../images/alipay.png" alt="">
                     <div class="way-text">支付宝</div>
-                    <img class="pitch-on" src="../../../images/pitch.png" alt="">
-                </router-link>
-                <router-link to="/succeed" class="way-box wx">
+                    <img class="pitch-on" src="../../../images/pitch.png" v-if="wayBoxBorder == 0">
+                </div>
+                <div to="/succeed" class="way-box wx" :class="{wayBoxBorder: wayBoxBorder == 1}" @click="palyWaySelect(1)">
                     <img src="../../../images/wxpay.png" alt="">
                     <div class="way-text">微信</div>
-                    <img class="pitch-on" src="../../../images/pitch.png" alt="">
-                </router-link>                
+                    <img class="pitch-on" src="../../../images/pitch.png" v-if="wayBoxBorder == 1">
+                </div>                
             </div>
             
             <a class="comfirm" @click="kaiguan" href="" target="_blank">
@@ -72,7 +72,8 @@ export default {
             lists:[], //商品信息
             chargeKdNumber:'' , //需要充值的kd数量 
             payMoney: '',  //应该支付多少钱
-            productKdId: '', //选中的商品 
+            productKdId: '', //选中的商品
+            wayBoxBorder: 0, //充值方式开关 默认  0：支付宝
         }
     },
     components:{
@@ -87,7 +88,10 @@ export default {
             this.chargeKdNumber = msg.name
             this.payMoney = msg.price
             this.productKdId = msg.productKdId
-        }
+        },
+        palyWaySelect(Num){ //Num： 0：为支付宝   1：微信
+            this.wayBoxBorder = Num
+        },
     },
     mounted(){
         console.log('1234547'+this.lists)
@@ -151,6 +155,7 @@ export default {
         line-height: 70px;
     }
     .waiter{
+        cursor: pointer;
         /* Internet Explorer 10 */
         display:-ms-flexbox;
         -ms-flex-align:center;
@@ -295,6 +300,7 @@ export default {
         border: 1px solid #d7d7d7;
         border-radius: 6px;
         margin-right: 20px;
+        cursor: pointer;
         /* Internet Explorer 10 */
         display:-ms-flexbox;
         -ms-flex-pack:center;
@@ -316,7 +322,7 @@ export default {
         box-align:center;
 
     }
-    .way-box:hover{
+    .wayBoxBorder{
         border: 2px solid #56c051;
     }
     .way-text{

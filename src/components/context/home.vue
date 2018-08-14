@@ -13,7 +13,7 @@
 
             <div class="theme">
             
-                <div class="theme-headline" @click="getData">主题音乐趴</div>
+                <div class="theme-headline">主题音乐趴</div>
 
                 <div class="theme-text">好友越唱、精彩现场、随时随地在线KTV聚会！</div>
 

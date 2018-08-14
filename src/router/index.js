@@ -65,14 +65,15 @@ var router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
+    console.log("Data.header['authorize-token']--"+Data.header['authorize-token'])
     if(to.path != '/'){
+        console.log('to.path-----'+ to.path)
         if(Data.header['authorize-token']){
             next()
             console.log('跳转测试true')
         }else{
-            console.log('跳转测试false')
+            console.log('跳转测试：被拦截')
             Bus.$emit('showLoginPage', to.path)
-            // next(false)
         }
     }else{
         console.log('去首页')

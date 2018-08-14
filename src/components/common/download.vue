@@ -8,7 +8,7 @@
             </div>
 
             <div class="downloadLeft">
-                    <a href="https://itunes.apple.com/cn/app/id1112801526?mt=8" class="ios-button">
+                    <a href="https://itunes.apple.com/cn/app/id1112801526?mt=8" class="ios-button" target="_blank">
                         <img src="../../images/ios-icon.png">
                         <div class="downloadText">下载IOS版</div>
                     </a>

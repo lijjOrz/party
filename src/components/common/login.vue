@@ -23,18 +23,16 @@
                     <div class="cl"><img src="../../images/clear-text.png"></div>
                 </div>
 
-                <div class="number marginTop">
+                <div class="number marginTop" v-if="captchaEmailCount == 3">
                     <!--输入验证码  -->
                     <input type="text" placeholder="输入验证码" v-model="captchaEmail">
                     <div class="cl"><img src="../../images/clear-text.png"></div>
                 </div>
 
                 <div class="loginButton">
-                    <!-- <router-link @click="loginButtonFunEmail" to="/charge" class="log_in">登录</router-link> -->
                     <div class="log_in" @click="loginButtonFunEmail">登录</div>
                 </div>
             </div>
-
 
             <div class="loginPhone" v-if="loginWayPage">
                 <div class="number">
@@ -88,7 +86,7 @@ export default{
         // let config = Object.assign({}, defaults, tPage);
         // let config =  tPage;
         return {
-            times: 3, //倒计时
+            times: 60, //倒计时
             VcodeShow: true, //显示倒计时
             hintText: '若未注册账号，请先<a href=""><u style="color: #f12644;">下载客户端</u></a>并注册', //提示文本
             userId: '13008300888',  //手机号
@@ -99,14 +97,15 @@ export default{
             userEmail: 'test@test.com',// 邮箱号
             password: 'kanKan123',//邮箱密码
             captchaEmail: '',// 邮箱验证码
-            routerEachPath: '',
+            captchaEmailCount: 0, // 本地邮箱验证码计算
+            routerEachPath: '',  // router.beforeEach中传入的 to.path 跳转地址参数
         }
     },
     mounted(){
         Bus.$on('showLoginPage', (routerEachPath) => {
             this.loginPage = true;
             this.routerEachPath = routerEachPath
-            console.log('this.routerEachPath'+ this.routerEachPath)
+            // console.log('this.routerEachPath'+ this.routerEachPath)
         })
     },
     computed:{
@@ -122,10 +121,10 @@ export default{
             }
         },
         timedCount(){//倒计时
-            if(this.times == 0){
+            if(this.times == 1){
                 this.VcodeShow = true
                 // this.hintText = ''
-                this.times = 3
+                this.times = 60
                 return
             }
             this.times -= 1
@@ -203,11 +202,19 @@ export default{
                 Data.header
             )
             .then((response) => {
-                console.log(response);
+                // console.log(response);
                 Data.header['authorize-token'] = response.data.data.token
                 Data.userData = response.data.data
                 Bus.$emit('updateUserInfo', Data.userData)
                 this.loginPage = false;
+                if(this.routerEachPath){
+                    console.log('routerEach被执行了---' + Data.header['authorize-token'])
+                    // this.$router.push({path: this.routerEachPath})
+                     const { href } = this.$router.resolve({
+                        path: this.routerEachPath
+                    })
+                    window.open(href, '_blank', 'toolbar=yes, width=1300, height=900')
+                }
             })
             .catch((error) => {
                 // console.log(error.response);
@@ -252,8 +259,8 @@ export default{
                 }
             })
             .catch((error) => {
-                // console.log(error.response);
                 console.log('错误状态码'+error.response.data.errno)
+                this.captchaEmailCount += 1;
                 let n = error.response.data.errno
                 switch(n){
                     case '120003' :
@@ -273,6 +280,9 @@ export default{
                         break;
                     case '120008' :
                         this.hintText = '验证码错误'
+                        break;
+                    case '120016' :
+                        this.hintText = '用户不存在'
                         break;
                     default:
                         this.hintText = '服务器异常'

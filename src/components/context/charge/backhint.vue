@@ -1,7 +1,7 @@
 <template>
     <div class="backhint-bg" v-if="onoff">
         <div class="backhint-center">
-            <div class="backhint-close" @click="$emit('kaiguan')"><img src="../../../images/close.png" alt=""></div>
+            <div class="backhint-close" @click="$emit('kaiguan')"><img src="../../../images/close.png"></div>
             <div class="backhint-head">
                 <p>支付提示</p>
             </div>
@@ -15,7 +15,6 @@
                 <div class="backhint-footer-style"><span class="right-text">已完成支付</span></div>
             </div>
         </div>
-
     </div>
 </template>
 
@@ -29,6 +28,7 @@ export default {
 <style>
     .backhint-bg{
         position: fixed;
+        z-index: 6;
         top: 0px;
         left: 0px;
         width: 100%;
@@ -47,6 +47,7 @@ export default {
         overflow: hidden;
     }
     .backhint-close{
+        cursor: pointer;
         position: absolute;
         right: 20px;
         top: 15px;
@@ -94,6 +95,7 @@ export default {
         width: 50%;
         line-height: 50px;
         text-align: center;
+        cursor: pointer;
     }
     .border-right{
         border-right: 1px solid #d7d7d7;

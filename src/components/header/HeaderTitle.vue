@@ -2,12 +2,11 @@
     <div id="header">
         <div class="header-div">
             
-            <div class="header-logo">
+            <router-link to="/" class="header-logo">
                 <img src="../../images/logo2x.png">
-            </div>
-            <div class="header-logo-font">
-                <span>好唱party</span>
-            </div>
+                <p class="header-logo-font">好唱party</p>
+            </router-link>
+            
             <ul class="header-title">
                 <li class="header-title-unit">
                     <router-link to="/" class="unit-a">首页</router-link>
@@ -71,6 +70,7 @@ export default {
             this.loginButton = true
             Data.userData = {}
             this.logoutGet()
+            this.$router.push({path: '/'})
         },
         logoutGet(){
             axios.get('http://dev-party-officia-site.haochang.tv/api/logout',{
